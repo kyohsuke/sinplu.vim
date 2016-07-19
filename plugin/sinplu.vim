@@ -14,17 +14,17 @@ let g:loaded_sinplu = 1
 let s:save_cpo = &cpo
 set cpo&vim
 
-function! SingularizeWard()
+function! s:SingularizeWard()
   let result = s:singularizeWard(expand('<cword>'))
   call s:replaceWard(result)
 endfunction
 
-function! PluralizeWard()
+function! s:PluralizeWard()
   let result = s:pluralizeWard(expand('<cword>'))
   call s:replaceWard(result)
 endfunction
 
-function! ToggleWard()
+function! s:ToggleWard()
   let ward = expand('<cword>')
   let singlar = s:singularizeWard(ward)
   let result = ward ==? singlar ? s:pluralizeWard(ward) : singlar
