@@ -22,6 +22,22 @@ let g:uncountable = [
       \ 'police',
       \ ]
 
+let g:sin_plu = [
+      \ ['word', 'words'],
+      \ ['party', 'parties'],
+      \ ['index', 'indices'],
+      \ ['status', 'statuses'],
+      \ ['alias', 'aliases'],
+      \ ['vertex', 'vertices'],
+      \ ['mouse', 'mice'],
+      \ ['louce', 'lice'],
+      \ ['ox', 'oxen'],
+      \ ['quiz', 'quizzes'],
+      \ ['database', 'databases'],
+      \ ]
+
+"     \ ['matrix', 'matrices'], " これだけ動かない
+
 describe 'sinplu#SingularizeWord(word)'
   it 'returns same word'
     for word in g:uncountable
@@ -32,6 +48,12 @@ describe 'sinplu#SingularizeWord(word)'
   it 'returns irregular word'
     for irregular in g:irregular
       Expect sinplu#SingularizeWord(irregular[1]) == irregular[0]
+    endfor
+  end
+
+  it 'returns singularize word'
+    for word in g:sin_plu
+      Expect sinplu#SingularizeWord(word[1]) == word[0]
     endfor
   end
 end
@@ -48,5 +70,10 @@ describe 'sinplu#PluralizeWord(word)'
       Expect sinplu#PluralizeWord(irregular[0]) == irregular[1] 
     endfor
   end
-end
 
+  it 'returns pluralize word'
+    for word in g:sin_plu
+      Expect sinplu#PluralizeWord(word[0]) == word[1]
+    endfor
+  end
+end
