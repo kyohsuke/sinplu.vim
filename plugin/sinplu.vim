@@ -14,21 +14,21 @@ let g:loaded_sinplu = 1
 let s:save_cpo = &cpo
 set cpo&vim
 
-function! s:SingularizeWard()
-  let result = s:singularizeWard(expand('<cword>'))
-  call s:replaceWard(result)
+function! s:SingularizeWord()
+  let result = sinplu#SingularizeWord(expand('<cword>'))
+  call s:replaceWord(result)
 endfunction
 
-function! s:PluralizeWard()
-  let result = s:pluralizeWard(expand('<cword>'))
-  call s:replaceWard(result)
+function! s:PluralizeWord()
+  let result = sinplu#PluralizeWord(expand('<cword>'))
+  call s:replaceWord(result)
 endfunction
 
-function! s:ToggleWard()
-  let ward = expand('<cword>')
-  let singlar = s:singularizeWard(ward)
-  let result = ward ==? singlar ? s:pluralizeWard(ward) : singlar
-  call s:replaceWard(result)
+function! s:ToggleWord()
+  let word = expand('<cword>')
+  let singlar = sinplu#SingularizeWord(word)
+  let result = word ==? singlar ? sinplu#PluralizeWord(word) : singlar
+  call s:replaceWord(result)
 endfunction
 
 function! s:replaceAll(src, irregular, inflicts)
@@ -73,13 +73,13 @@ function! s:replaceAll(src, irregular, inflicts)
   return temp
 endfunction
 
-function! s:replaceWard(result)
+function! s:replaceWord(result)
   let pos = getpos('.')
   execute ":normal ciw" . a:result . "\<ESC>"
   call setpos('.', pos)
 endfunction
 
-function! s:singularizeWard(ward)
+function! sinplu#SingularizeWord(word)
   let inflicts = []
   let irregular = []
   " Singular
@@ -119,10 +119,10 @@ function! s:singularizeWard(ward)
   call add(irregular, ['\(move\)s', '\1', 'i'])
   call add(irregular, ['\(zombie\)s', '\1', 'i'])
 
-  return s:replaceAll(a:ward, irregular, inflicts)
+  return s:replaceAll(a:word, irregular, inflicts)
 endfunction
 
-function! s:pluralizeWard(ward)
+function! sinplu#PluralizeWord(word)
   let inflicts = []
   let irregular = []
 
@@ -157,17 +157,17 @@ function! s:pluralizeWard(ward)
   call add(irregular, ['\(move\)', '\1s', ''])
   call add(irregular, ['\(zombie\)', '\1s', 'i'])
 
-  return s:replaceAll(a:ward, irregular, inflicts)
+  return s:replaceAll(a:word, irregular, inflicts)
 endfunction
 
-nnoremap <Plug>SingularizeWard :<C-u>call <SID>SingularizeWard()<CR>
-nnoremap <Plug>PluralizeWard :<C-u>call <SID>PluralizeWard()<CR>
-nnoremap <Plug>ToggleWard :<C-u>call <SID>ToggleWard()<CR>
+nnoremap <Plug>SingularizeWord :<C-u>call <SID>SingularizeWord()<CR>
+nnoremap <Plug>PluralizeWord :<C-u>call <SID>PluralizeWord()<CR>
+nnoremap <Plug>ToggleWord :<C-u>call <SID>ToggleWord()<CR>
 
 if !exists("g:sinplu_no_mappings") || !g:sinplu_no_mappings
-  nmap <Leader>s <Plug>SingularizeWard
-  nmap <Leader>p <Plug>PluralizeWard
-  nmap <Leader>w <Plug>ToggleWard
+  nmap <Leader>s <Plug>SingularizeWord
+  nmap <Leader>p <Plug>PluralizeWord
+  nmap <Leader>w <Plug>ToggleWord
 end
 
 let &cpo = s:save_cpo
