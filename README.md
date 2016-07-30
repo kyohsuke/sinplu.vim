@@ -7,7 +7,6 @@ Based on [Active Support](https://github.com/rails/rails/blob/92f567ab30f240a1de
 ![](https://cloud.githubusercontent.com/assets/573880/17268236/50690df4-5660-11e6-98ac-746d2ae953e5.gif)
 
 ## Installation
-if you use NeoBundle, like this.
 ```vim
 NeoBundle 'kyohsuke/sinplu.vim'
 ```
