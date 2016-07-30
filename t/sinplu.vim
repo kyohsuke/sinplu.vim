@@ -58,6 +58,14 @@ describe 'sinplu#SingularizeWord(word)'
       Expect sinplu#SingularizeWord(word[1]) ==? word[0]
     endfor
   end
+
+  it 'returns singularize override word'
+    let g:sinplu_singular_override_wards = [
+          \ ['(ind)exes$', '\1ex', 'i']
+          \ ]
+    Expect sinplu#SingularizeWord('indexes') ==? 'index'
+    let g:sinplu_singular_override_wards = []
+  end
 end
 
 describe 'sinplu#PluralizeWord(word)'
@@ -77,5 +85,13 @@ describe 'sinplu#PluralizeWord(word)'
     for word in g:sin_plu
       Expect sinplu#PluralizeWord(word[0]) ==? word[1]
     endfor
+  end
+
+  it 'returns pluralize override word'
+    let g:sinplu_plural_override_wards = [
+          \ ['(ind)ex$', '\1exes', 'i']
+          \ ]
+    Expect sinplu#PluralizeWord('index') ==? 'indexes'
+    let g:sinplu_plural_override_wards = []
   end
 end

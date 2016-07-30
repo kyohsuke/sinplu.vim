@@ -15,7 +15,7 @@ let g:loaded_sinplu = 1
 let s:save_cpo = &cpo
 set cpo&vim
 
-if !exists("g:sinplu_uncountable_wards")"{{{
+if !exists("g:sinplu_uncountable_wards") " {{{
   let g:sinplu_uncountable_wards = [
         \ 'equipment',
         \ 'information',
@@ -28,9 +28,9 @@ if !exists("g:sinplu_uncountable_wards")"{{{
         \ 'jeans',
         \ 'police',
         \ ]
-endif"}}}
+endif " }}}
 
-if !exists("g:sinplu_singular_inflict_wards")"{{{
+if !exists("g:sinplu_singular_inflict_wards") " {{{
   let g:sinplu_singular_inflict_wards = [
         \ ['(database)s$', '\1', 'i'],
         \ ['(quiz)zes$', '\1', 'i'],
@@ -62,9 +62,9 @@ if !exists("g:sinplu_singular_inflict_wards")"{{{
         \ ['(ss)$', '\1', 'i'],
         \ ['s$', '', 'i'],
         \ ]
-endif"}}}
+endif " }}}
 
-if !exists("g:sinplu_singular_irregular_wards")"{{{
+if !exists("g:sinplu_singular_irregular_wards") " {{{
   let g:sinplu_singular_irregular_wards = [
         \ ['(zombie)s', '\1', 'i'],
         \ ['(move)s', '\1', 'i'],
@@ -73,9 +73,9 @@ if !exists("g:sinplu_singular_irregular_wards")"{{{
         \ ['(m)en', '\1an', 'i'],
         \ ['(pe)ople$', '\1rson', 'i'],
         \ ]
-endif"}}}
+endif " }}}
 
-if !exists("g:sinplu_plural_inflict_wards")"{{{
+if !exists("g:sinplu_plural_inflict_wards") " {{{
   let g:sinplu_plural_inflict_wards = [
         \ ['(quiz)$', '\1zes', 'i'],
         \ ['^(oxen)$', '\1', 'i'],
@@ -100,9 +100,9 @@ if !exists("g:sinplu_plural_inflict_wards")"{{{
         \ ['s$', 's', 'i'],
         \ ['$', 's', ''],
         \ ]
-endif"}}}
+endif " }}}
 
-if !exists("g:sinplu_plural_irregular_wards")"{{{
+if !exists("g:sinplu_plural_irregular_wards") " {{{
   let g:sinplu_plural_irregular_wards = [
         \ ['(zombie)', '\1s', 'i'],
         \ ['(move)', '\1s', ''],
@@ -111,27 +111,36 @@ if !exists("g:sinplu_plural_irregular_wards")"{{{
         \ ['(m)an', '\1en', 'i'],
         \ ['(pe)rson', '\1ople', 'i'],
         \ ]
-endif"}}}
+endif " }}}
 
-function! s:SingularizeWord()"{{{
+if !exists("g:sinplu_plural_override_wards") " {{{
+  let g:sinplu_plural_override_wards = []
+endif " }}}
+
+if !exists("g:sinplu_singular_override_wards") " {{{
+  let g:sinplu_singular_override_wards = []
+endif " }}}
+
+
+function! s:SingularizeWord() " {{{
   let result = sinplu#SingularizeWord(expand('<cword>'))
   call s:replaceWord(result)
-endfunction"}}}
+endfunction " }}}
 
-function! s:PluralizeWord()"{{{
+function! s:PluralizeWord() " {{{
   let result = sinplu#PluralizeWord(expand('<cword>'))
   call s:replaceWord(result)
-endfunction"}}}
+endfunction " }}}
 
-function! s:ToggleWord()"{{{
+function! s:ToggleWord() " {{{
   let word = expand('<cword>')
   let singlar = sinplu#SingularizeWord(word)
   let result = word ==? singlar ? sinplu#PluralizeWord(word) : singlar
 
   call s:replaceWord(result)
-endfunction"}}}
+endfunction " }}}
 
-function! s:replaceAll(src, irregular, inflicts) " {{{
+function! s:replaceAll(src, override, irregular, inflicts) " {{{
   let base = substitute(a:src, '\n', '', 'g')
   for passthrow in g:sinplu_uncountable_wards
     if a:src ==? passthrow
@@ -139,7 +148,7 @@ function! s:replaceAll(src, irregular, inflicts) " {{{
     endif
   endfor
 
-  for check_group in [a:irregular, a:inflicts]
+  for check_group in [a:override, a:irregular, a:inflicts]
     for inflict in check_group
       let before = '\v'. inflict[0]
       let after = inflict[1]
@@ -160,11 +169,11 @@ function! s:replaceWord(result) " {{{
 endfunction " }}}
 
 function! sinplu#SingularizeWord(word) " {{{
-  return s:replaceAll(a:word, g:sinplu_singular_irregular_wards, g:sinplu_singular_inflict_wards)
+  return s:replaceAll(a:word, g:sinplu_singular_override_wards, g:sinplu_singular_irregular_wards, g:sinplu_singular_inflict_wards)
 endfunction " }}}
 
 function! sinplu#PluralizeWord(word) " {{{
-  return s:replaceAll(a:word, g:sinplu_plural_irregular_wards, g:sinplu_plural_inflict_wards)
+  return s:replaceAll(a:word, g:sinplu_plural_override_wards, g:sinplu_plural_irregular_wards, g:sinplu_plural_inflict_wards)
 endfunction " }}}
 
 nnoremap <Plug>SingularizeWord :<C-u>call <SID>SingularizeWord()<CR>
