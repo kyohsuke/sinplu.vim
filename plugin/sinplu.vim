@@ -174,7 +174,7 @@ nnoremap <Plug>ToggleWord :<C-u>call <SID>ToggleWord()<CR>
 if !exists("g:sinplu_no_mappings") || !g:sinplu_no_mappings
   nmap <Leader>s <Plug>SingularizeWord
   nmap <Leader>p <Plug>PluralizeWord
-  nmap <Leader>w <Plug>ToggleWord
+  nmap <Leader>t <Plug>ToggleWord
 end
 
 let &cpo = s:save_cpo
