@@ -40,22 +40,22 @@ let g:sin_plu = [
       \ ['native', 'natives'],
       \ ]
 
-describe 'sinplu#SingularizeWord(word)'
+describe 'SinpluSingularizeWord(word)'
   it 'returns same word'
     for word in g:uncountable
-      Expect sinplu#SingularizeWord(word) ==? word
+      Expect SinpluSingularizeWord(word) ==? word
     endfor
   end
 
   it 'returns irregular word'
     for irregular in g:irregular
-      Expect sinplu#SingularizeWord(irregular[1]) ==? irregular[0]
+      Expect SinpluSingularizeWord(irregular[1]) ==? irregular[0]
     endfor
   end
 
   it 'returns singularize word'
     for word in g:sin_plu
-      Expect sinplu#SingularizeWord(word[1]) ==? word[0]
+      Expect SinpluSingularizeWord(word[1]) ==? word[0]
     endfor
   end
 
@@ -63,27 +63,27 @@ describe 'sinplu#SingularizeWord(word)'
     let g:sinplu_singular_override_wards = [
           \ ['(ind)exes$', '\1ex', 'i']
           \ ]
-    Expect sinplu#SingularizeWord('indexes') ==? 'index'
+    Expect SinpluSingularizeWord('indexes') ==? 'index'
     let g:sinplu_singular_override_wards = []
   end
 end
 
-describe 'sinplu#PluralizeWord(word)'
+describe 'SinpluPluralizeWord(word)'
   it 'returns same word'
     for word in g:uncountable
-      Expect sinplu#PluralizeWord(word) ==? word
+      Expect SinpluPluralizeWord(word) ==? word
     endfor
   end
 
   it 'returns irregular word'
     for irregular in g:irregular
-      Expect sinplu#PluralizeWord(irregular[0]) ==? irregular[1] 
+      Expect SinpluPluralizeWord(irregular[0]) ==? irregular[1]
     endfor
   end
 
   it 'returns pluralize word'
     for word in g:sin_plu
-      Expect sinplu#PluralizeWord(word[0]) ==? word[1]
+      Expect SinpluPluralizeWord(word[0]) ==? word[1]
     endfor
   end
 
@@ -91,7 +91,7 @@ describe 'sinplu#PluralizeWord(word)'
     let g:sinplu_plural_override_wards = [
           \ ['(ind)ex$', '\1exes', 'i']
           \ ]
-    Expect sinplu#PluralizeWord('index') ==? 'indexes'
+    Expect SinpluPluralizeWord('index') ==? 'indexes'
     let g:sinplu_plural_override_wards = []
   end
 end
