@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/kyohsuke/sinplu.vim.svg?branch=master)](https://travis-ci.org/kyohsuke/sinplu.vim)
+[![CI](https://github.com/kyohsuke/sinplu.vim/actions/workflows/test.yml/badge.svg)](https://github.com/kyohsuke/sinplu.vim/actions/workflows/test.yml)
 
 ## sinplu.vim - Singularize <-> Pluralize
 
